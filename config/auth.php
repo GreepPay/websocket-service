@@ -37,7 +37,11 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
+            'driver'   => 'custom',
+            'provider' => 'users',
+        ],
+        'custom' => [
+            'driver'   => 'custom',   // <-- name matches Auth::extend()
             'provider' => 'users',
         ],
     ],
