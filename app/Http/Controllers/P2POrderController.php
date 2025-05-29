@@ -48,4 +48,26 @@ class P2POrderController extends Controller
 
         return response()->json(['broadcasted' => true], 202);
     }
+
+    /**
+     * Broadcast a “message” event inside an order channel.
+     *
+     * @param  Request  $req
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function message(Request $req)
+    {
+        $data = $req->validate([
+            'uuid' => 'required|string',
+            'message_id' => 'required|string',
+            'sender_id' => 'required|integer',
+            'body' => 'required|string|max:2000',
+            'sent_at' => 'sometimes|date_format:Y-m-d\TH:i:sP',
+        ]);
+
+        $this->broadcaster->message($data['uuid'], $data);
+
+        return response()->json(['broadcasted' => true], 202);
+    }
 }

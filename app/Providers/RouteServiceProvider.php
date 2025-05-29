@@ -31,8 +31,11 @@ class RouteServiceProvider extends ServiceProvider
 
         Broadcast::routes([
             'middleware' => ['auth:custom'],
-            // 'prefix'   => 'api',
         ]);
+
+        Route::post('laravel-websockets', fn() => response('', 204))
+            ->withoutMiddleware(['auth:custom', 'web'])
+            ->name('websockets.statistics');
 
         $this->routes(function () {
             Route::middleware('api')

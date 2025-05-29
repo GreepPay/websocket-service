@@ -24,4 +24,5 @@ Route::middleware('auth:custom')
     ->group(function () {
         Route::post('/p2p-orders', [P2POrderController::class, 'create']);
         Route::put('/p2p-orders', [P2POrderController::class, 'update']);
+        Route::post('/p2p-orders/messages', [P2POrderController::class, 'message']);
     });
