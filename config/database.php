@@ -73,7 +73,7 @@ return [
             "password" => env("DB_PASSWORD", ""),
             "charset" => "utf8",
             "prefix" => "",
-            "schema" => "auth_service",
+            "schema" => "websocket_service",
             "prefix_indexes" => true,
             "search_path" => "public",
             "sslmode" => env("DB_SSLMODE")
