@@ -43,3 +43,21 @@ Broadcast::channel('message.{conversationId}', fn () => true);
 |--------------------------------------------------------------------------
 */
 Broadcast::channel('product.{productUuid}', fn () => true);
+
+/*
+|--------------------------------------------------------------------------
+| Shop-order private channel
+| Name : shop_order.{orderUuid}
+| Auth : ANY logged-in user (guarded by auth:custom on /broadcasting/auth)
+|--------------------------------------------------------------------------
+*/
+Broadcast::channel('shop_order.{orderUuid}', fn () => true);
+
+/*
+|--------------------------------------------------------------------------
+| Transaction private channel
+| Name : transaction.{transactionUuid}
+| Auth : ANY logged-in user (guarded by auth:custom on /broadcasting/auth)
+|--------------------------------------------------------------------------
+*/
+Broadcast::channel('transaction.{transactionUuid}', fn () => true);
