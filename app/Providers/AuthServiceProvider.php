@@ -2,25 +2,65 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Models\Auth\User;
+use App\Services\AuthService;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\RequestGuard;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The model to policy mappings for the application.
+     * Register any application services.
      *
-     * @var array<class-string, class-string>
+     * @return void
      */
-    protected $policies = [
-        //
-    ];
-
-    /**
-     * Register any authentication / authorization services.
-     */
-    public function boot(): void
+    public function register()
     {
         //
+    }
+
+    /**
+     * Boot the authentication services for the application.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Auth::extend("custom", function ($app, $name, array $config) {
+            return new RequestGuard(
+                function ($request) {
+                    $token = $request->bearerToken();
+
+                    if (!$token) {
+                        return null;
+                    }
+
+                    $cacheKey = "auth_user_" . $token;
+                    $response = cache()->remember(
+                        $cacheKey,
+                        now()->addMinutes(60),
+                        function () use ($token) {
+                            $authService = new AuthService();
+                            return $authService->authUser();
+                        }
+                    );
+
+                    if (!$response || empty($response["data"])) {
+                        return null;
+                    }
+
+                    $user = User::query()
+                        ->where("id", $response["data"]["id"])
+                        // ->with("profile")
+                        ->first();
+
+                    return $user;
+                },
+                $app["request"],
+                $app["auth"]->createUserProvider($config["provider"])
+            );
+        });
     }
 }

@@ -76,9 +76,7 @@ return [
             "schema" => "websocket_service",
             "prefix_indexes" => true,
             "search_path" => "public",
-            "sslmode" => env("DB_SSLMODE")
-                ? env("DB_SSLMODE", "disable")
-                : null,
+            "sslmode" => "prefer",
         ],
 
         "sqlsrv" => [
@@ -94,6 +92,39 @@ return [
             "prefix_indexes" => true,
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
+
+        "greep-auth" => [
+            "driver" => "pgsql",
+            "host" => env("DB_HOST", "127.0.0.1"),
+            "port" => env("DB_PORT", "5432"),
+            "database" => env("DB_DATABASE", "greep"),
+            "username" => env("DB_USERNAME", "your_username"),
+            "password" => env("DB_PASSWORD", "your_password"),
+            "charset" => "utf8",
+            "prefix" => "",
+            "prefix_indexes" => true,
+            "schema" => "auth_service",
+            "sslmode" => env("DB_SSLMODE")
+                ? env("DB_SSLMODE", "disable")
+                : null,
+            // "sslrootcert" => env("DB_SSLCERT") ? env("DB_SSLCERT", "") : null,
+        ],
+        "greep-websocket" => [
+            "driver" => "pgsql",
+            "host" => env("DB_HOST", "127.0.0.1"),
+            "port" => env("DB_PORT", "5432"),
+            "database" => env("DB_DATABASE", "greep"),
+            "username" => env("DB_USERNAME", "your_username"),
+            "password" => env("DB_PASSWORD", "your_password"),
+            "charset" => "utf8",
+            "prefix" => "",
+            "prefix_indexes" => true,
+            "schema" => "websocket_service",
+            "sslmode" => env("DB_SSLMODE")
+                ? env("DB_SSLMODE", "disable")
+                : null,
+            // "sslrootcert" => env("DB_SSLCERT") ? env("DB_SSLCERT", "") : null,
         ],
     ],
 
