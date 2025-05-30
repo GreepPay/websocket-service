@@ -7,30 +7,30 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Fired whenever a P2P order changes state
- * (paid, released, cancelled, etc.).
- * Broadcast name: p2p_order.updated
+ * Fired whenever a product changes state
+ * (price, stock, visibility, etc.).
+ * Broadcast name: product.updated
  */
-class P2pOrderUpdated implements ShouldBroadcastNow
+class ProductUpdated implements ShouldBroadcastNow
 {
     use SerializesModels;
 
-    /** UUID that identifies the order / channel suffix */
+    /** UUID that identifies the product / channel suffix */
     public function __construct(
-        public string $orderUuid,
+        public string $productUuid,
         public array  $payload
     ) {}
 
-    /** Private channel: p2p_order.{uuid} */
+    /** Private channel: product.{uuid} */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel("p2p_order.{$this->orderUuid}");
+        return new PrivateChannel("product.{$this->productUuid}");
     }
 
-    /** Client receives event as “p2p_order.updated” */
+    /** Client receives event as “product.updated” */
     public function broadcastAs(): string
     {
-        return 'p2p_order.updated';
+        return 'product.updated';
     }
 
     /** Data that front-end consumes */

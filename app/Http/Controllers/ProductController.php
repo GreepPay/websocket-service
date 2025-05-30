@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\P2pOrderBroadcaster;
+use App\Services\ProductBroadcaster;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
-class P2POrderController extends Controller
+class ProductController extends Controller
 {
-    public function __construct(private P2pOrderBroadcaster $broadcaster)
-    {
-    }
+    public function __construct(private ProductBroadcaster $broadcaster) {}
 
     /**
-     * Broadcast a “created” event for a new P2P order.
+     * Broadcast a “created” event for a new product.
      *
      * @param  Request  $req
      *
@@ -31,7 +28,7 @@ class P2POrderController extends Controller
     }
 
     /**
-     * Broadcast an “updated” event for an existing P2P order.
+     * Broadcast an “updated” event for an existing product.
      *
      * @param  Request  $req
      *
@@ -41,7 +38,8 @@ class P2POrderController extends Controller
     {
         $data = $req->validate([
             'uuid' => 'required|string',
-            'status' => 'sometimes|string|max:20',
+            'price' => 'sometimes|numeric',
+            'stock' => 'sometimes|integer',
         ]);
 
         $this->broadcaster->updated($data['uuid'], $data);

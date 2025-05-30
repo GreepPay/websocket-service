@@ -34,18 +34,4 @@ class P2pOrderBroadcaster
     {
         event(new P2pOrderUpdated($uuid, $data));
     }
-
-    /**
-     * Broadcast a “message” event when either participant
-     * (or a bot) sends a chat/message inside the order.
-     *
-     * @param  string  $uuid   The order identifier.
-     * @param  array   $data   { message_id, sender_id, body, sent_at, … }.
-     *
-     * @return void
-     */
-    public function message(string $uuid, array $data): void
-    {
-        event(new P2pOrderMessageCreated($uuid, $data));
-    }
 }

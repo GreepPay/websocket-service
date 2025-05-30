@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\P2POrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,5 @@ Route::middleware('auth:custom')
     ->group(function () {
         Route::post('/p2p-orders', [P2POrderController::class, 'create']);
         Route::put('/p2p-orders', [P2POrderController::class, 'update']);
-        Route::post('/p2p-orders/messages', [P2POrderController::class, 'message']);
+        Route::post('/messages', [MessageController::class, 'create']);
     });

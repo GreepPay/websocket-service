@@ -7,10 +7,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Fired when a new P2P order is created.
- * Broadcast name: p2p_order.created
+ * Fired when a new shop order is created.
+ * Broadcast name: shop_order.created
  */
-class P2pOrderCreated implements ShouldBroadcastNow
+class ShopOrderCreated implements ShouldBroadcastNow
 {
     use SerializesModels;
 
@@ -18,7 +18,7 @@ class P2pOrderCreated implements ShouldBroadcastNow
     public string $orderUuid;
 
     /** @var array  Entire payload forwarded to the client */
-    public array  $payload;
+    public array $payload;
 
     /**
      * Constructor – every property must be serialisable.
@@ -34,20 +34,20 @@ class P2pOrderCreated implements ShouldBroadcastNow
 
     /**
      * Decide which channel the event is broadcast on.
-     * Always a private channel:  p2p_order.{uuid}
+     * Always a private channel:  shop_order.{uuid}
      */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel("p2p_order.{$this->orderUuid}");
+        return new PrivateChannel("shop_order.{$this->orderUuid}");
     }
 
     /**
      * Name of the event as received by the client.
-     * Makes listener calls explicit:  .listen('p2p_order.created', …)
+     * Makes listener calls explicit:  .listen('shop_order.created', …)
      */
     public function broadcastAs(): string
     {
-        return 'p2p_order.created';
+        return 'shop_order.created';
     }
 
     /**

@@ -25,3 +25,21 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 |--------------------------------------------------------------------------
 */
 Broadcast::channel('p2p-order.{orderUuid}', fn () => true);
+
+/*
+|--------------------------------------------------------------------------
+| Chat / Message private channel
+| Name : message.{conversationId}
+| Auth : ANY logged-in user (guarded by auth:custom on /broadcasting/auth)
+|--------------------------------------------------------------------------
+*/
+Broadcast::channel('message.{conversationId}', fn () => true);
+
+/*
+|--------------------------------------------------------------------------
+| Product private channel
+| Name : product.{productUuid}
+| Auth : ANY logged-in user (guarded by auth:custom on /broadcasting/auth)
+|--------------------------------------------------------------------------
+*/
+Broadcast::channel('product.{productUuid}', fn () => true);
