@@ -69,14 +69,7 @@ jobs:
             export EARTHLY_BUILD_ARGS=$(echo $EARTHLY_BUILD_ARGS | sed 's/,$//')
 
             # Run earthly with the dynamically created EARTHLY_BUILD_ARGS
-            earthly --no-cache +setup --envs=${{ github.ref_name }} --apptype="php" --service="greep-websocket"
-
-            az acr login --name ${{ secrets.AZURE_REGISTRY_NAME }}
-
-            earthly --push +build --envs=${{ github.ref_name }} --version=${{ github.run_number }}  --apptype="php" --service="greep-websocket"
-
-            # Deploy using the EARTHLY_BUILD_ARGS
-            earthly --no-cache +deploy --envs=${{ github.ref_name }} --version=${{ github.run_number }}  --apptype="php" --service="greep-websocket"
+            earthly --no-cache +setup --envs=${{ github.ref_name }} --apptype="php" --service="greep-websocket" && az acr login --name ${{ secrets.AZURE_REGISTRY_NAME }} && earthly --push +build --envs=${{ github.ref_name }} --version=${{ github.run_number }}  --apptype="php" --service="greep-websocket" && earthly --no-cache +deploy --envs=${{ github.ref_name }} --version=${{ github.run_number }}  --apptype="php" --service="greep-websocket"
 
   deploy-production:
     if: github.ref == 'refs/heads/prod'
@@ -137,11 +130,4 @@ jobs:
             export EARTHLY_BUILD_ARGS=$(echo $EARTHLY_BUILD_ARGS | sed 's/,$//')
 
             # Run earthly with the dynamically created EARTHLY_BUILD_ARGS
-            earthly --no-cache +setup --envs=${{ github.ref_name }} --apptype="php" --service="greep-websocket"
-
-            az acr login --name ${{ secrets.AZURE_REGISTRY_NAME }}
-
-            earthly --push +build --envs=${{ github.ref_name }} --version=${{ github.run_number }} --apptype="php" --service="greep-websocket" || exit 1
-
-            # Deploy using the EARTHLY_BUILD_ARGS
-            earthly --no-cache +deploy --envs=${{ github.ref_name }} --version=${{ github.run_number }}  --apptype="php" --service="greep-websocket"
+            earthly --no-cache +setup --envs=${{ github.ref_name }} --apptype="php" --service="greep-websocket" && az acr login --name ${{ secrets.AZURE_REGISTRY_NAME }} && earthly --push +build --envs=${{ github.ref_name }} --version=${{ github.run_number }} --apptype="php" --service="greep-websocket" && earthly --no-cache +deploy --envs=${{ github.ref_name }} --version=${{ github.run_number }}  --apptype="php" --service="greep-websocket"
